@@ -125,7 +125,7 @@ Pages joined with a form feed at load time, split again at chunk time, so every
 chunk knows its exact page. Citations read *"Approved Code of Practice for
 Cranes, p. 75"* rather than naming a 288-page file.
 
-*Cost:* a definition spanning pages 12 to 13 gets cut in half. Unmeasured so far.
+Cost: a definition spanning pages 12 to 13 gets cut in half. Unmeasured so far.
 
 ### 300 words, 50 overlap
 
@@ -133,7 +133,7 @@ Chosen relative to the corpus, not by taste: median page is 262 words, so a
 300-word target means most pages become exactly one chunk and the sliding-window
 path rarely fires.
 
-*Cost:* page-bounding rounds every page up to at least one chunk - 2,611 chunks
+Cost: page-bounding rounds every page up to at least one chunk - 2,611 chunks
 rather than the ~1,916 continuous windowing would give.
 
 ### Sorted file order
@@ -143,21 +143,21 @@ would silently point at different text between runs, invalidating any eval set
 keyed to them - wrong results, no error. Verified stable by hashing the full ID
 sequence across two runs.
 
-*Cost:* none.
+Cost: none.
 
 ### Brute-force search, no ANN index
 
 2,611 x 384 float32 is 4 MB - small enough to sit in CPU cache, where an
 exhaustive scan is both exact and faster than a graph walk.
 
-*Cost:* none at this scale. Revisit past ~500,000 chunks.
+Cost: none at this scale. Revisit past ~500,000 chunks.
 
 ### Unit-normalised embeddings
 
 Normalising at encode time makes the dot product identical to cosine similarity,
 so the entire search is one matrix multiply with no per-query normalisation.
 
-*Cost:* none.
+Cost: none.
 
 ### `doc_id` carried through every stage
 
@@ -165,7 +165,7 @@ Filename prefix is the join key back to harvest metadata, which supplies real
 titles, publication types and topics. Also enables filtering the index by
 document type later without re-scraping.
 
-*Cost:* one extra field per chunk.
+Cost: one extra field per chunk.
 
 ### Local retrieval, hosted generation
 
@@ -174,7 +174,7 @@ API, so retrieval experiments cost nothing. A small local model would be adequat
 for extraction but is measurably worse at declining when sources don't support an
 answer - the behaviour that matters most here.
 
-*Cost:* ~$0.004 per answered query; retrieval evaluation stays free.
+Cost: ~$0.004 per answered query; retrieval evaluation stays free.
 
 ### Hard output ceiling 1,000 tokens, thinking disabled
 
@@ -182,7 +182,7 @@ Output bills at 5x input. `max_tokens` is a genuine per-call spend cap. Adaptive
 thinking is both a Claude 4.6+ feature that Haiku 4.5 rejects and pure cost for
 what is grounded extraction rather than reasoning.
 
-*Cost:* answers longer than ~700 words would truncate. None observed.
+Cost: answers longer than ~700 words would truncate. None observed.
 
 ---
 
@@ -253,7 +253,7 @@ listing's 1,000-result cap. They skew administrative. See §6.
 
 ### ACCEPTED - Chunks and vectors coupled by position
 
-Row *i* of the embedding array corresponds to `chunks[i]` and nothing enforces
+Row i of the embedding array corresponds to `chunks[i]` and nothing enforces
 it. Reordering one without the other produces silently wrong results with no
 error. Acceptable in a single-file baseline; first thing to fix on refactor.
 
@@ -266,7 +266,7 @@ was felt before it was engineered away. Now due - see §6.
 ### ACCEPTED - No access control
 
 Every chunk is visible to every caller. Not a defect in a single-user prototype,
-but any multi-user deployment must push identity-derived filters *into* the
+but any multi-user deployment must push identity-derived filters into the
 search query rather than applying them after the model has seen the content.
 This is a correctness requirement, not an optimisation.
 
@@ -288,7 +288,7 @@ Stage 1 is not complete. Four pieces of work remain, and the order matters.
 the corpus and will move substantially once the rest lands.
 
 2. Cache the index.
-So the rebuild loop stops costing minutes. Needs a real invalidation signal - 
+the rebuild loop stops costing minutes. Needs a real invalidation signal - 
 hash the sorted filenames plus `CHUNK_WORDS`, `CHUNK_OVERLAP` and `EMBED_MODEL`,
 and rebuild when that hash moves. A naive cache serves a stale index forever
 after the corpus grows, and a stale index gives wrong answers with no error.
@@ -299,7 +299,7 @@ after the corpus grows, and a stale index gives wrong answers with no error.
 nDCG. This is the instrument and the largest remaining piece: hours of
 genuine labelling work, not an afternoon of scripting.
 
-Must come *after* the download. Chunk IDs are stable, but a question labelled
+Must come after the download. Chunk IDs are stable, but a question labelled
 against a 38-document index can only reference chunks from those 38 files, and
 the correct answer for most questions lives in a document not yet on disk.
 
@@ -324,8 +324,8 @@ the improvement story.
 
 ### Disciplines
 
-One intervention per stage. If a stage adds contextual headers *and* BM25
-*and* RRF and recall jumps 15 points, it is not possible to say which did it, and "we added
+One intervention per stage. If a stage adds contextual headers and BM25
+and RRF and recall jumps 15 points, it is not possible to say which did it, and "we added
 three things and it got better" is what every other write-up says. If changes are
 bundled, measure incrementally within the stage so attribution survives.
 
@@ -339,7 +339,7 @@ in three months, and these are numbers worth quoting later.
 
 ### Why segmentation matters
 
-Adding keyword search will barely move *aggregate* recall, because most questions
+Adding keyword search will barely move aggregate recall, because most questions
 are conceptual and already handled, but on identifier queries it should move
 recall from roughly zero to near one. Reported as a single average, the best
 improvement in the project would look like noise.

@@ -4,8 +4,8 @@ Contextual headers were rejected in stage 2 under vector-only retrieval. The
 retrieval architecture has changed completely since - hybrid search plus a
 cross-encoder reranker, so the rejection was retested rather than assumed.
 
-Result: rejected again. No header variant beats plain text under any
-architecture tested.
+The result was a second rejection, with no header variant beating plain text under
+any architecture tested.
 
 Measured on the frozen `golden_set_v1.jsonl`. Index: 1,913 documents,
 41,594 chunks, `bge-small-en-v1.5`, chunk 300/50, hybrid + rerank.
@@ -58,8 +58,6 @@ bear directly on that mechanism:
    discriminating terms BM25 rewards.
 
 ## 2. The mechanism changed; the verdict did not
-
-This is the informative part.
 
 | | vector-only (stage 2) | hybrid + rerank (stage 5) |
 |---|---|---|

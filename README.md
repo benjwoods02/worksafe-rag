@@ -31,9 +31,9 @@ Across six stages, aggregate hit@5 went from 0.543 to 0.886 and identifier retri
 
 ### Corpus acquisition
 
-`gather.py`. The publications listing caps at 1,000 results despite advertising 2,281, so each facet value (publication type, topic, industry) is paged separately through `/publications-and-resources/FilterSearchForm/` and the union deduplicated on doc_id. That recovers 1,975 of 2,281 documents. Harvesting per facet also establishes each document's types, topics and industries authoritatively, including for the roughly 17% where the listing text omits them.
+The harvest in `gather.py` works around a limit in the source. The publications listing caps at 1,000 results despite advertising 2,281, so each facet value (publication type, topic, industry) is paged separately through `/publications-and-resources/FilterSearchForm/` and the union deduplicated on doc_id. That recovers 1,975 of 2,281 documents. Harvesting per facet also establishes each document's types, topics and industries authoritatively, including for the roughly 17% where the listing text omits them.
 
-`fetch.py`. Downloads with a 1.5 s delay, automatic retry on 429/5xx via HTTPAdapter, and resume on restart. It validates the `%PDF-` magic bytes rather than the status code, because a 200 can still be an HTML error page and without that check corruption surfaces as a parse failure two stages later.
+`fetch.py` downloads with a 1.5 s delay, automatic retry on 429/5xx via HTTPAdapter, and resume on restart. It validates the `%PDF-` magic bytes rather than the status code, because a 200 can still be an HTML error page and without that check corruption surfaces as a parse failure two stages later.
 
 ### Indexing, in rag.py
 
@@ -179,13 +179,11 @@ data/
 
 Full accounting in [docs/results-summary.md](docs/results-summary.md). The ones that matter most:
 
-Retrieval cannot signal failure. Cosine similarity always returns a top-k, so there is no "no results" state. The system refuses only because the prompt instructs it to. A similarity threshold is not available: unanswerable queries scored higher (0.732) than answerable identifier queries (0.702), and the score scale has changed four times across stages.
+Retrieval cannot signal that it has failed, because cosine similarity always returns a top-k and there is no "no results" state, so the system refuses only because the prompt instructs it to. A similarity threshold is not available either, since unanswerable queries scored higher (0.732) than answerable identifier queries (0.702) and the score scale has changed four times across the stages.
 
-Everything measured is synthetic. The golden set, the router probe and the realistic-query set were all written by the person who built the system. Real query logs remain the largest gap.
+Everything measured here is synthetic. The golden set, the router probe and the realistic-query set were all written by the person who built the system, so real query logs remain the largest gap. The generation labels are LLM-scored with a human spot-check rather than independently hand-labelled throughout, and agreement was 6 of 7 items.
 
-Generation labels are LLM-scored with a human spot-check rather than independently hand-labelled throughout. Agreement was 6 of 7 items.
-
-No access control. Every chunk is visible to every caller. Any multi-user deployment must push identity-derived filters into the search query rather than applying them after the model has seen content. This is a correctness requirement, not an optimisation.
+There is no access control, so every chunk is visible to every caller. Any multi-user deployment would need to push identity-derived filters into the search query rather than applying them after the model has seen the content, which is a correctness requirement rather than an optimisation.
 
 Nothing is deployed, and the golden set at 45 questions cannot resolve differences of the size the later stages produce.
 

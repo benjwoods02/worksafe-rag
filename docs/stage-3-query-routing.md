@@ -43,7 +43,7 @@ ROUTED                        0.714       0.900        0.467
 ORACLE (best per question)    0.800       1.000        0.533
 ```
 
-The oracle row matters: 0.800 is what a *perfect* router achieves, and routing
+The oracle row matters: 0.800 is what a perfect router achieves, and routing
 between these three modes cannot reach it. The remaining 0.086 needs better
 retrieval, not better dispatch. That is the reranking case.
 
@@ -116,9 +116,9 @@ while keeping the vector channel alive, and would not have this failure mode.
 
 Is rule-based routing used in production RAG? Yes, for structured identifier
 lookups, language detection and obvious intent classes, and in regulated
-domains it is often *preferred* because it is deterministic and auditable.
+domains it is often preferred because it is deterministic and auditable.
 
-But production systems rarely stop there. They layer rules for high-confidence
+However, production systems rarely stop there. They layer rules for high-confidence
 patterns with a classifier or LLM for the rest, and invest more in query
 understanding generally (rewriting, decomposition, metadata extraction) than in
 channel selection.
@@ -133,7 +133,7 @@ subsume this gain entirely. That is a prediction to measure, not assume.
 Would it survive real employee queries? Partially. Beyond the three failures
 above, real queries are much shorter (`"asbestos ppe"`), full of industry
 acronyms (SWMS, JSA, H&S rep), frequently conversational and dependent on a
-prior turn (*"what about for contractors?"*), often multi-part, and sometimes
+prior turn ("what about for contractors?"), often multi-part, and sometimes
 not questions at all. The golden set contains none of that - every question is a
 well-formed sentence because it was written that way.
 
@@ -160,7 +160,7 @@ stage to run.
 ### BLOCKING - retrieval still cannot signal failure
 
 Unchanged since stage 1 and now harder, because score scales are mode-dependent
-*and* routing makes the scale vary per query. A query routed to keyword returns
+and routing makes the scale vary per query. A query routed to keyword returns
 BM25 scores (~22); one routed to hybrid returns RRF scores (~0.03). There is no
 threshold that works across both.
 
@@ -205,7 +205,7 @@ Headroom is large on both segments: conceptual 0.450 -> 1.000, identifier
 
 > Correction. An earlier draft of this section stated a reranker could not
 > help identifiers, citing `hit@100` of 0.533. That figure was measured under
-> *stage 1 vector-only* retrieval. Under routed retrieval BM25 does find those
+> stage 1 vector-only retrieval. Under routed retrieval BM25 does find those
 > chunks. It simply ranks them badly, so identifier `hit@50` is 0.933, not
 > 0.267. Reranking is a ranking fix, and identifier retrieval is now a ranking
 > problem rather than a recall problem.

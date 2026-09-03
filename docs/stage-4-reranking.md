@@ -8,7 +8,7 @@ Measured on the frozen `golden_set_v1.jsonl` - 45 questions, 20 conceptual,
 15 identifier, 10 unanswerable. Index unchanged since stage 2: 1,913 documents,
 41,594 chunks, fingerprint `5a3e0e1883e9ecb3`. No re-embedding.
 
-This stage retires the stage 3 router. See §3.
+This stage also retires the stage 3 router, for the reasons set out in §3.
 
 ## Progression
 
@@ -38,7 +38,7 @@ question*. That separation is what makes scanning 41,594 chunks a single matrix
 multiply, and what makes the scores cluster (`top_gap` 0.014, barely
 discriminating).
 
-A cross-encoder feeds query and chunk through a transformer *together*, so
+A cross-encoder feeds query and chunk through a transformer together, so
 attention runs across both. It answers "does this passage answer this question"
 rather than "are these two vectors close". Far more accurate, and far too slow
 for the whole corpus: one forward pass per pair, nothing precomputable.
@@ -87,7 +87,7 @@ routing turned out to be actively harmful once a reranker was present:
 Routing discards the vector channel on identifier queries, shrinking the
 candidate pool from ~100 fused results to ~50 keyword-only ones. Stage 3 needed
 that restriction because RRF diluted the keyword signal; the reranker fixes the
-dilution properly, by *rescoring* rather than by *pre-selecting*. Once it can
+dilution properly, by rescoring rather than by pre-selecting. Once it can
 sort good from bad itself, it simply wants more candidates.
 
 `RETRIEVAL_MODE` is now `"hybrid"`. The router code and `router_probe.jsonl`
@@ -110,8 +110,8 @@ rarely show.
 
 With BM25 removed, the reranker cannot recover identifier chunks. It can only
 reorder what was fetched, and vector retrieval never fetches them. BM25 is still
-doing the essential work of *finding*; the cross-encoder does the work of
-*ordering*. Neither substitutes for the other.
+doing the essential work of finding; the cross-encoder does the work of
+ordering. Neither substitutes for the other.
 
 ---
 

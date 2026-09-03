@@ -63,7 +63,7 @@ identifier hit@5      0.067     0.400     0.467     0.800    rejected
 | 4 | cross-encoder reranking | adopted |
 | 5 | contextual headers, retested | rejected again |
 
-Identifier retrieval went from 1-in-15 to 12-in-15. Aggregate MRR more than
+Identifier retrieval went from 1-in-15 to 12-in-15 and aggregate MRR more than
 doubled.
 
 ---
@@ -80,7 +80,7 @@ paired one. McNemar's test on `hit@5`, n = 35 answerable:
 | stage 3 -> 4 (reranking) | 1 | 7 | +0.171 | 0.070 | not significant |
 | stage 1 -> 4 (cumulative) | 1 | 13 | +0.343 | 0.0018 | significant |
 
-No individual stage clears p < 0.05. The cumulative improvement does,
+No individual stage clears p < 0.05, however the cumulative improvement does so
 comfortably.
 
 This is the most important number in the project and it should be reported
@@ -107,12 +107,12 @@ specific stage delivered a specific amount.
 
 ## 4. What worked, and what didn't
 
-All measured gains came from retrieval architecture. None from chunk
+All of the measured gains came from retrieval architecture rather than from chunk
 representation.
 
 Hybrid search and reranking did the work. Contextual headers were tested in two
 variants under two different architectures across four rebuilds and never beat
-plain text, and the *reason* changed between architectures (recall damage
+plain text, and the reason changed between architectures (recall damage
 under vector-only, ranking damage under reranking) while the verdict did not.
 
 Query routing is the instructive case. It was justified by a real measured gap
@@ -121,9 +121,6 @@ made actively harmful by the stage 4 reranker - routing shrinks the
 candidate pool, and a cross-encoder would rather have more candidates and sort
 them itself. Retired, with the code kept for reproducibility.
 
-For anyone building a similar system: spend effort on retrieval architecture
-before chunk engineering. Chunking receives disproportionate attention in RAG
-writing relative to what it delivered here.
 
 ---
 
@@ -160,7 +157,7 @@ build behind grep's exit status.
 BLOCKING - retrieval cannot signal failure. Cosine similarity always returns
 a top-k; there is no "no results". The system refuses only because the prompt
 instructs it to. A similarity threshold is not available: unanswerable queries
-scored *higher* (0.732) than answerable identifier queries (0.702) at stage 1,
+scored higher (0.732) than answerable identifier queries (0.702) at stage 1,
 and the score scale has since changed four times (cosine -> BM25 -> RRF ->
 cross-encoder logits). No threshold survives a change of retrieval method.
 
@@ -180,10 +177,10 @@ the median page and never tested. The most obvious untested variable.
 KNOWN - `top_gap` is not scale-free and is meaningless across stages.
 
 ACCEPTED - chunks and vectors coupled by position. Nothing enforces that row
-*i* of the embedding array corresponds to `chunks[i]`.
+i of the embedding array corresponds to `chunks[i]`.
 
 ACCEPTED - no access control. Every chunk is visible to every caller. Any
-multi-user deployment must push identity-derived filters *into* the search
+multi-user deployment must push identity-derived filters into the search
 query, never apply them after the model has seen content. A correctness
 requirement, not an optimisation.
 
@@ -230,14 +227,14 @@ Currently conceptual (20), identifier (15), unanswerable (10). Absent:
 - Messy/realistic - short fragments (`"asbestos ppe"`), typos, acronyms
   (SWMS, JSA), conversational follow-ups. Every existing question is a
   well-formed sentence, so nothing measures what real users type.
-- Near-miss negatives - questions the corpus *almost* answers, to test
+- Near-miss negatives - questions the corpus almost answers, to test
   whether the system over-claims on partial evidence.
 
 ### 7.4 Ground truth quality
 
 Literal phrase matching is biased. A question labelled on the phrase
-*"available within ten seconds"* has ground truth consisting only of chunks
-containing that phrase. A chunk that answers the question in *different words*
+"available within ten seconds" has ground truth consisting only of chunks
+containing that phrase. A chunk that answers the question in different words
 is scored as a miss, which systematically penalises the vector channel and
 flatters BM25. The `find_by_page` workflow (read the PDF, ground on the page)
 avoids this and should be the default for new questions.
@@ -286,25 +283,3 @@ Until then, every number in this project should be read as *"on questions we
 wrote ourselves"*.
 
 ---
-
-## 8. Production gaps
-
-Beyond the golden set, before this could serve real users:
-
-- Access control - identity-derived filters pushed into the query (§6).
-- Generation-side evaluation - hand-label groundedness on ~30 answers;
-  calibrate any LLM judge against those human labels before trusting it.
-- Deployment and monitoring - nothing is deployed. Log every query with
-  retrieved chunk IDs, scores, latency and cost; monitor score-distribution
-  drift and no-answer rate.
-- Incremental indexing, a full rebuild is ~10 minutes and re-embeds
-  everything, including unchanged documents.
-- Query understanding - rewriting, decomposition, and resolution of
-  conversational follow-ups. None exists.
-- A GPU in production - the cross-encoder runs 50 forward passes per query.
-
----
-
-## Notes
-
-<!-- space for your own notes below -->

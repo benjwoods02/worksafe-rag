@@ -42,9 +42,9 @@ Modality (2) - the domain-critical one. WorkSafe explicitly defines "must"
 as a legal requirement and "should" as recommended practice.
 
 - `c015`: source reads *"fixed barriers should be at least 500 mm from the
-  robot work envelope"*; the answer states *"must be at least 500 mm"*.
+  robot work envelope"; the answer states "must be at least 500 mm"*.
 - `c012`: source reads *"You should provide your customers with
-  information"*; the answer headlines it *"Information you must provide"*.
+  information"; the answer headlines it "Information you must provide"*.
 
 Recommended practice reported as legal obligation. No retrieval metric can
 detect this - retrieval fetched exactly the right chunk both times.
@@ -68,10 +68,10 @@ while a supporting source sits in the same result set.
 Chunk overlap creates citation ambiguity. If a sentence spans two chunks,
 "which chunk is the citation" is ill-defined. It does not explain `c009` - those
 chunks are p31 and p36, and page-bounded chunking means overlap only ever occurs
-*within* a page, but it is a real risk for same-page pairs, and a consequence of
+within a page, but it is a real risk for same-page pairs, and a consequence of
 `CHUNK_OVERLAP = 50` invisible to every retrieval metric.
 
-Source-layout explanations are noise. Several refusals explain *why* the
+Source-layout explanations are noise. Several refusals explain why the
 answer is unavailable by describing what the retrieved chunks contain. A user
 never sees the sources, so this leaks implementation detail instead of
 answering. A one-line prompt change would fix it. Not applied - recorded as
@@ -79,9 +79,9 @@ future work.
 
 ### Prompt violations not caught by any dimension
 
-Four of ten refusals redirect outside the corpus - *"contact Immigration NZ"*,
-*"the Building Act 2004"*, *"contact ACC directly"*, *"contact the relevant
-local authority"*. `SYSTEM_PROMPT` says *"Use ONLY the sources given. Do not add
+Four of ten refusals redirect outside the corpus - "contact Immigration NZ",
+"the Building Act 2004", "contact ACC directly", *"contact the relevant
+local authority". `SYSTEM_PROMPT` says "Use ONLY the sources given. Do not add
 outside knowledge."*
 
 Refusal behaviour is 100%; instruction-following on those items is 60%. None
@@ -93,10 +93,10 @@ happening by accident rather than by design.
 12 of 15 identifier answers are refusals, and they are correct refusals.
 `id001` identified three different Regulation 47s across separate instruments;
 `id003` the same for Regulation 84; `id004` and `id006`-`id010` each noted the
-corpus *cites* a regulation without ever *stating* what it requires.
+corpus cites a regulation without ever stating what it requires.
 
 That is the structural point: guidance documents reference regulations, they
-do not reproduce them. So *"what does Regulation 47 require"* is unanswerable
+do not reproduce them, so "what does Regulation 47 require" is unanswerable
 from this corpus even when retrieval works perfectly. Identifier `hit@5` of
 0.800 measures something real - finding chunks that mention a reference - but
 the question text asks for something the corpus cannot supply.
@@ -175,7 +175,8 @@ calibration; a larger sample and an independent labeller would strengthen it.
 Six dimensions were scored; more exist. Instruction-following (the redirect
 violations) had no dimension and was caught only in free-text notes.
 
-The chunk sweep could not compute significance, only bound it.
+The chunk sweep could only bound significance rather than compute it, since
+per-question results were not retained.
 
 45 questions cannot resolve differences of this size. Every result in this
 stage sits inside the interval widths established in
@@ -191,9 +192,9 @@ Deliberately not attempted, in rough order of value:
    written by the system's author.
 2. Independent generation labelling by a domain expert, and Cohen's kappa
    against it on more than seven items.
-3. Rebuild the identifier segment. *"What does Regulation N require"* is
+3. Rebuild the identifier segment. "What does Regulation N require" is
    unanswerable from guidance documents. Questions should ask what the
-   *guidance* says about a regulation, not what the regulation itself contains.
+   guidance says about a regulation, not what the regulation itself contains.
 4. A prompt fix for source-layout narration and outside-corpus redirects.
 5. Access control, deployment, monitoring - see
    [results-summary.md](results-summary.md) §8.
