@@ -202,7 +202,3 @@ Real query logs. Still the single biggest gap. Everything measured here is
 synthetic and written by the same person who built the system.
 
 ---
-
-## Notes
-
-<!-- space for your own notes below -->

@@ -185,8 +185,6 @@ Everything measured here is synthetic. The golden set, the router probe and the 
 
 There is no access control, so every chunk is visible to every caller. Any multi-user deployment would need to push identity-derived filters into the search query rather than applying them after the model has seen the content, which is a correctness requirement rather than an optimisation.
 
-Nothing is deployed, and the golden set at 45 questions cannot resolve differences of the size the later stages produce.
-
 ---
 
 Corpus is WorkSafe New Zealand published guidance, harvested from the public catalogue. Most NZ government content is released under [NZGOAL](https://www.data.govt.nz/toolkit/policies/nzgoal/) (CC BY).
