@@ -348,7 +348,3 @@ Every retrieval metric is computed without calling any model, so the entire
 measurement programme is free.
 
 ---
-
-## Notes
-
-<!-- space for your own notes below -->

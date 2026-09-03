@@ -201,7 +201,3 @@ Deliberately not attempted, in rough order of value:
 6. Azure reimplementation.
 
 ---
-
-## Notes
-
-<!-- space for your own notes below -->

@@ -266,7 +266,3 @@ Also outstanding:
 - Corpus curation - guidance-only index vs all 1,913 documents.
 
 ---
-
-## Notes
-
-<!-- space for your own notes below -->

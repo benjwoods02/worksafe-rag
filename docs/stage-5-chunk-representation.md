@@ -157,7 +157,3 @@ query logs remain the single largest gap in the project, and no amount of
 further tuning against synthetic questions closes it.
 
 ---
-
-## Notes
-
-<!-- space for your own notes below -->

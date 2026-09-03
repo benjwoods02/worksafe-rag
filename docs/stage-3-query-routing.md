@@ -236,7 +236,3 @@ longer exists. Recorded because a stage removing the reason for a planned stage
 is a legitimate outcome.
 
 ---
-
-## Notes
-
-<!-- space for your own notes below -->
