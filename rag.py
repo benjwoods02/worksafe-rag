@@ -127,7 +127,7 @@ def load():
                 # Extract inside the with block; the Document is dead after it.
                 page_texts, headings = extract_pages(doc)
                 text = PAGE_SEPARATOR.join(page_texts)
-        except Exception as exc:  # a corrupt file must not kill a 750-file run
+        except Exception as exc:  # a corrupt file must not kill the whole run
             failed.append((path.name, str(exc)))
             continue
 
@@ -314,7 +314,7 @@ def corpus_fingerprint():
     """Hash of everything that makes an existing index invalid.
 
     Computed from filenames and sizes via stat() -- no PDF parsing -- so the
-    cache check itself costs milliseconds even at 750 documents.
+    cache check itself costs milliseconds even at 1,913 documents.
 
     Settings are folded in alongside the file list. Changing CHUNK_WORDS or
     EMBED_MODEL moves the fingerprint, so a stale index is rebuilt rather than
@@ -338,8 +338,7 @@ def corpus_fingerprint():
 def build_index(force=False):
     """Return (chunks, vectors), from cache when it is still valid.
 
-    Turns a ~35 second rebuild at 38 documents -- projected ~6 minutes at 750 --
-    into well under a second.
+    Turns a ~10 minute rebuild at 1,913 documents into 0.06 s.
     """
     fingerprint = corpus_fingerprint()
     manifest_path = INDEX_PATH / "manifest.json"
@@ -573,9 +572,9 @@ def search(query, vectors, chunks, top_k=6, mode=None, rerank=None):
     The vectors are unit-normalised, so a dot product IS cosine similarity and
     the whole search is one matrix multiply: (n_chunks, 384) @ (384,).
 
-    At 2,611 chunks that is ~4 MB of arithmetic -- microseconds, and EXACT.
+    At 41,594 chunks that is 64 MB of arithmetic -- ~9 ms, and EXACT.
     An approximate index (HNSW, FAISS) only starts earning its complexity
-    somewhere past ~100k chunks.
+    somewhere past ~500k chunks.
     """
     if not chunks or vectors.shape[0] == 0:
         return []
