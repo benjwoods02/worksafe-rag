@@ -27,6 +27,57 @@ Across six stages, aggregate hit@5 went from 0.543 to 0.886 and identifier retri
 
 ---
 
+## Worked examples
+
+Both of these are real output from the system, not illustrations.
+
+A question the corpus answers. Retrieval returns six chunks, the cross-encoder reorders them, and the top three all come from the relevant Approved Code of Practice.
+
+```
+Q: does a worker only passing briefly through a hearing protector area need protection
+
+  [1]  5.015  ACOP: Management of noise in the workplace, p.23
+  [2]  3.571  ACOP: Management of noise in the workplace, p.23
+  [3]  3.213  ACOP: Management of noise in the workplace, p.24
+
+Yes, according to the sources, a worker passing briefly through a hearing
+protector area must wear hearing protectors.
+
+[1] states: "Every person in a designated hearing protector area must wear
+hearing protectors. This includes people working full or part time in those
+areas, and people passing through or spending very short amounts of time there."
+
+This requirement applies regardless of how briefly they are present in the
+designated area.
+
+[2242 in / 89 out, $0.0027]
+```
+
+The answer quotes the source rather than paraphrasing it, and preserves "must", which matters because WorkSafe defines must as a legal requirement and should as recommended practice. The cross-encoder scores are 5.015, 3.571 and 3.213, a real separation, against the 0.014 gap that cosine similarity produced before reranking was added.
+
+A question the corpus does not answer. ACC compensation is workplace-adjacent, and the corpus does discuss it, so retrieval returns confident-looking results.
+
+```
+Q: how do I claim ACC weekly compensation after an injury
+
+  [1]  4.256  Report: Overview of work-related harm and risk in Ao, p.28
+  [2]  4.242  Towards 2020 - Progress towards the 2020 work-relate, p.34
+  [3]  3.793  Report: Overview of work-related harm and risk in Ao, p.24
+
+The sources provided do not contain information about how to claim ACC weekly
+compensation after an injury.
+
+The sources define what ACC weekly compensation claims are and provide data
+about their rates and trends, but they do not explain the process or procedures
+for making a claim.
+
+[2558 in / 75 out, $0.0029]
+```
+
+This is the behaviour that matters most for a regulatory corpus. Retrieval cannot signal that it has failed, since cosine similarity always returns a top-k, so the six chunks handed to the model look plausible and score in the same range as the answerable question above. The refusal comes from the model reading them and judging that they define the term without explaining the process. Correct refusal was 10 out of 10 on the unanswerable segment of the golden set.
+
+---
+
 ## How it works
 
 ### Corpus acquisition
