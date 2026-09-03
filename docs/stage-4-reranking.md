@@ -33,8 +33,8 @@ Largest single improvement in the project. Identifier retrieval has gone from
 ## 1. How it works
 
 The retriever is a bi-encoder: query and chunk are embedded separately and
-never meet, so each chunk was compressed into 384 numbers *without knowing the
-question*. That separation is what makes scanning 41,594 chunks a single matrix
+never meet, so each chunk was compressed into 384 numbers without knowing the
+question. That separation is what makes scanning 41,594 chunks a single matrix
 multiply, and what makes the scores cluster (`top_gap` 0.014, barely
 discriminating).
 

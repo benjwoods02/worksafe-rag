@@ -130,13 +130,13 @@ Two bugs worth recording, both caught by inspection rather than by the metrics:
   the 49 pt cover title, so every page inherited it. Fixed by requiring a
   heading level to recur - appear on at least `max(3, pages/20)` distinct
   pages, which excludes one-off display type.
-- Headings split across lines were truncated to their tail. *"What are the
-  duties for unlicensed asbestos removal?" became "removal?"*. Fixed by
+- Headings split across lines were truncated to their tail. "What are the
+  duties for unlicensed asbestos removal?" became "removal?". Fixed by
   merging consecutive same-size lines within a block.
 
 What survived: `heading` is still extracted and attached to every chunk, and
-`format_sources` uses it. Citations now read *"Interpretive guidelines > 12.0
-What are the duties for asbestos-related work?, p.90"* instead of a filename and
+`format_sources` uses it. Citations now read "Interpretive guidelines > 12.0
+What are the duties for asbestos-related work?, p.90" instead of a filename and
 page. Better attribution, independent of the retrieval question.
 
 ---

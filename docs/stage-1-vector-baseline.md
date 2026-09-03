@@ -122,8 +122,8 @@ Each was a fork with a real alternative. The trade-off matters more than the cho
 ### Page-bounded chunking, joined on `\f`
 
 Pages joined with a form feed at load time, split again at chunk time, so every
-chunk knows its exact page. Citations read *"Approved Code of Practice for
-Cranes, p. 75"* rather than naming a 288-page file.
+chunk knows its exact page. Citations read "Approved Code of Practice for
+Cranes, p. 75" rather than naming a 288-page file.
 
 Cost: a definition spanning pages 12 to 13 gets cut in half. Unmeasured so far.
 

@@ -279,7 +279,7 @@ questions from actual duty holders would be worth more than five hundred
 invented ones, because they carry the distribution - what people actually ask,
 how they phrase it, and how often the answer isn't in the corpus at all.
 
-Until then, every number in this project should be read as *"on questions we
-wrote ourselves"*.
+Until then, every number in this project should be read as "on questions we
+wrote ourselves".
 
 ---

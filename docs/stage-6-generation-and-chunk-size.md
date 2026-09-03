@@ -41,18 +41,18 @@ stronger. Recorded as future work.
 Modality (2) - the domain-critical one. WorkSafe explicitly defines "must"
 as a legal requirement and "should" as recommended practice.
 
-- `c015`: source reads *"fixed barriers should be at least 500 mm from the
-  robot work envelope"; the answer states "must be at least 500 mm"*.
-- `c012`: source reads *"You should provide your customers with
-  information"; the answer headlines it "Information you must provide"*.
+- `c015`: source reads "fixed barriers should be at least 500 mm from the
+  robot work envelope"; the answer states "must be at least 500 mm".
+- `c012`: source reads "You should provide your customers with
+  information"; the answer headlines it "Information you must provide".
 
 Recommended practice reported as legal obligation. No retrieval metric can
 detect this - retrieval fetched exactly the right chunk both times.
 
 Drift (2). `c006` asked whether a certified handler must be present for
-highly hazardous gases. Source [1] answers directly - *"Highly hazardous
+highly hazardous gases. Source [1] answers directly - "Highly hazardous
 gases must be under the control of a certified handler. The handler must be
-present"*, and the answer ignored it, pivoted to fumigants and explosives from
+present", and the answer ignored it, pivoted to fumigants and explosives from
 adjacent sources, and concluded a handler is not always required. Every
 claim sourced, every citation valid; it answered a different question.
 
@@ -80,9 +80,9 @@ future work.
 ### Prompt violations not caught by any dimension
 
 Four of ten refusals redirect outside the corpus - "contact Immigration NZ",
-"the Building Act 2004", "contact ACC directly", *"contact the relevant
+"the Building Act 2004", "contact ACC directly", "contact the relevant
 local authority". `SYSTEM_PROMPT` says "Use ONLY the sources given. Do not add
-outside knowledge."*
+outside knowledge."
 
 Refusal behaviour is 100%; instruction-following on those items is 60%. None
 of it is a substantive claim about safety law, so it is benign, but it is
