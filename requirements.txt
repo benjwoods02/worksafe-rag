@@ -1,0 +1,26 @@
+# Install CUDA torch FIRST, separately -- the PyPI default wheel is CPU-only:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu124
+# Embedding runs ~8x faster on GPU (162 vs 20 chunks/sec on an RTX 2060).
+
+# --- corpus acquisition ---
+requests>=2.32
+beautifulsoup4>=4.13
+lxml>=5.0
+
+# --- ingestion ---
+pymupdf>=1.28              # PDF text + font-size extraction
+
+# --- embedding and reranking (local) ---
+sentence-transformers>=6.0
+transformers>=4.44
+
+# --- retrieval ---
+numpy>=2.0
+# BM25 uses stdlib sqlite3 FTS5 -- no dependency needed
+
+# --- generation ---
+anthropic>=1.0
+python-dotenv>=1.0
+
+# --- evaluation ---
+scipy>=1.14                # McNemar / binomial tests in the write-up

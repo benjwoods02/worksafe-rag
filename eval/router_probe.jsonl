@@ -1,0 +1,35 @@
+{"set": "designed", "query": "what does reg 47 say", "expect": "keyword", "note": "abbreviated 'reg'"}
+{"set": "designed", "query": "s36 duties for a PCBU", "expect": "keyword", "note": "no space, section abbreviation"}
+{"set": "designed", "query": "the requirements in cl 5.2", "expect": "keyword", "note": "clause abbreviation, decimal ref"}
+{"set": "designed", "query": "sched 3 requirements for hazardous substances", "expect": "keyword", "note": "schedule abbreviation; caught a regex alternation bug"}
+{"set": "designed", "query": "what is in section 57 of the act", "expect": "keyword", "note": "natural phrasing around a section ref"}
+{"set": "designed", "query": "regulation 92 - what does it cover", "expect": "keyword", "note": "punctuation after the ref"}
+{"set": "designed", "query": "Reg. 84 obligations for mine operators", "expect": "keyword", "note": "abbreviation with full stop"}
+{"set": "designed", "query": "table A2 minimum load safety device requirements", "expect": "keyword", "note": "alphanumeric table ref"}
+{"set": "designed", "query": "appendix 3 of the cranes code of practice", "expect": "keyword", "note": "appendix ref"}
+{"set": "designed", "query": "part 2 subpart 1 duties", "expect": "keyword", "note": "part/subpart ref"}
+{"set": "designed", "query": "what does the asbestos regulation about air monitoring require", "expect": "hybrid", "note": "HARD: names a regulation but gives no number"}
+{"set": "designed", "query": "which section of the act covers officer due diligence", "expect": "hybrid", "note": "HARD: asks about a section without naming one"}
+{"set": "designed", "query": "what happens if someone falls more than 3 metres", "expect": "hybrid", "note": "HARD NEGATIVE: bare number"}
+{"set": "designed", "query": "do I need 2 people present for confined space entry", "expect": "hybrid", "note": "HARD NEGATIVE: bare number"}
+{"set": "designed", "query": "how long must records be kept, 5 years or 7", "expect": "hybrid", "note": "HARD NEGATIVE: bare numbers"}
+{"set": "designed", "query": "is a 12 volt system safe to use in a confined space", "expect": "hybrid", "note": "HARD NEGATIVE: measurement"}
+{"set": "designed", "query": "how many lifts per minute is too many for manual handling", "expect": "hybrid", "note": "HARD NEGATIVE: no number at all"}
+{"set": "designed", "query": "what noise level requires hearing protection", "expect": "hybrid", "note": "conceptual"}
+{"set": "designed", "query": "what PPE is needed for licensed asbestos removal", "expect": "hybrid", "note": "conceptual"}
+{"set": "designed", "query": "which part of the body is most at risk from vibration", "expect": "hybrid", "note": "HARD NEGATIVE: the word 'part' with no number"}
+{"set": "realistic", "query": "asbestos ppe", "expect": "hybrid", "note": "keyword dump, no verb"}
+{"set": "realistic", "query": "scaffold ticket requirements", "expect": "hybrid", "note": "industry jargon"}
+{"set": "realistic", "query": "regualtion 47", "expect": "keyword", "note": "FAILS: typo in the reference word blinds the regex"}
+{"set": "realistic", "query": "reg47", "expect": "keyword", "note": "no space at all"}
+{"set": "realistic", "query": "47", "expect": "keyword", "note": "FAILS: bare number, unfixable by regex without huge false positives"}
+{"set": "realistic", "query": "whats the rule about working at heights over 5m", "expect": "hybrid", "note": "colloquial + measurement"}
+{"set": "realistic", "query": "we are doing asbestos removal, does regulation 47 apply to us and what PPE do we need", "expect": "hybrid", "note": "FAILS: mostly conceptual but contains a ref -- a hard switch cannot serve a query that is both"}
+{"set": "realistic", "query": "do i need a swms for confined space", "expect": "hybrid", "note": "industry acronym"}
+{"set": "realistic", "query": "who signs off a permit to work", "expect": "hybrid", "note": "conceptual"}
+{"set": "realistic", "query": "notifiable event definition s25", "expect": "keyword", "note": "reference at the end of the query"}
+{"set": "realistic", "query": "what about for contractors?", "expect": "hybrid", "note": "conversational, depends on a prior turn"}
+{"set": "realistic", "query": "HSWA 2015 part 2", "expect": "keyword", "note": "act name plus part ref"}
+{"set": "realistic", "query": "is 85 db too loud", "expect": "hybrid", "note": "bare number with unit"}
+{"set": "realistic", "query": "forklift training 12 months", "expect": "hybrid", "note": "bare number, duration"}
+{"set": "realistic", "query": "cl 5.2 and reg 13 both apply?", "expect": "keyword", "note": "two references in one query"}

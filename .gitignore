@@ -1,0 +1,24 @@
+# secrets -- never commit
+.env
+
+# derived corpus and index: 1.9 GB, rebuildable
+#   python gather.py && python fetch.py && python rag.py
+data/raw/
+data/index/
+failed.jsonl
+
+# python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# model cache
+.cache/
+
+# Committed on purpose:
+#   data/urls.jsonl        1.1 MB of corpus metadata, ~12 min to re-harvest
+#   eval/*.jsonl           the golden set, router probe and generated answers
+#   eval/label_sheet.md    the generation labels
+# These are the evaluation record. Without them the results are not reproducible.
